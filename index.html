@@ -2,9 +2,77 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>vue基础指令</title>
+	<script src='js/vue.min.js'></script>
+	<style>
+		body,html{
+			margin: 0;
+			padding: 0;
+		}
+		.login{
+			width: 400px;
+			height: 300px;
+			border: 1px solid #eee;
+			margin: 20px auto;
+			border-radius: 4px;
+			box-shadow: 0px 1px 1px 1px #eee;
+		}
+		.login div{
+			overflow: hidden;
+			margin-top: 30px;
+			padding-left: 40px;
+		}
+		.login div span{
+			width: 60px;
+			height: 30px;
+			display: inline-block;
+			text-align: center;
+			line-height: 30px;
+			border: 1px solid #2b2b2b;
+			box-sizing: border-box;
+			float: left;
+			font-size: 14px;
+			color: #ccc;
+		}
+		.login div input{
+			width: 310px;
+			height: 30px;
+			box-sizing: border-box;
+			float: left;
+			border: 1px solid #2b2b2b;
+			padding-left: 10px;
+			border-radius: 2px;
+		}
+		.login div:nth-child(3) input{
+			width: 250px;
+		}
+		.login .btn{
+			width: 310px;
+			height: 30px;
+			background-color: #000;
+			color: #fff;
+			border: 0;
+			margin-top: 30px;
+			margin-left: 40px;
+			font-size: 16px;
+			font-weight: bold;
+			border-radius: 2px;
+		}
+	</style>
 </head>
 <body>
-	<div>hello world!!</div>
+	<div class='login' id='loginApp'>
+		<form action="#">
+			<div><input type="text" placeholder="username"></div>
+			<div><input type="password" placeholder="password"></div>
+			<div><input type="text" placeholder="code"><span>12345</span></div>
+			<input class='btn' type="submit" value="提交">
+		</form>
+	</div>
 </body>
+<script>
+	var loginApp = new Vue({
+		el: '#loginApp',
+	}); 
+</script>
 </html>

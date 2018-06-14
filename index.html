@@ -42,13 +42,26 @@
 			border: 1px solid #2b2b2b;
 			padding-left: 10px;
 			border-radius: 2px;
+			outline: none;
+		}
+		.login div .wranning{
+			color: red;
+		}
+		.login div .wranning::-webkit-input-placeholder{
+			color: red;
+		}
+		.login div .wranning::-moz-input-placeholder{
+			color: red;
+		}
+		.login div .wranning::-ms-input-placeholder{
+			color: red;
 		}
 		.login div:nth-child(3) input{
 			width: 250px;
 		}
 		.login .btn{
 			width: 310px;
-			height: 30px;
+			height: 40px;
 			background-color: #000;
 			color: #fff;
 			border: 0;
@@ -63,16 +76,90 @@
 <body>
 	<div class='login' id='loginApp'>
 		<form action="#">
-			<div><input type="text" placeholder="username"></div>
-			<div><input type="password" placeholder="password"></div>
-			<div><input type="text" placeholder="code"><span>12345</span></div>
+			<div v-for="item in formData">
+				<template v-if="item.placeholder == 'username'">
+					<input v-bind:type="item.type" v-bind:placeholder="item.placeholder" v-on:blur="nameNull" v-bind:class="item.wranning" v-model="item.val">
+				</template>
+				<template v-else-if="item.placeholder == 'password'">
+					<input v-bind:type="item.type" v-bind:placeholder="item.placeholder" v-on:blur="pwdNull" v-bind:class="item.wranning" v-model="item.val">
+				</template>
+				<template v-else-if="item.placeholder == 'code'">
+					<input v-bind:type="item.type" v-bind:placeholder="item.placeholder" v-on:blur="codeNull" v-bind:class="item.wranning" v-model="item.val">
+				<span v-if="item.placeholder == 'code'">{{item.qcode}}</span>
+				</template>
+			</div>
 			<input class='btn' type="submit" value="提交">
 		</form>
+	</div>
+
+	<div class="test" id="testData">
+		<h1 v-on:click="add">{{a}}</h1>
+		
 	</div>
 </body>
 <script>
 	var loginApp = new Vue({
 		el: '#loginApp',
+		data:{
+			formData: [
+				{type: "text",placeholder: "username",val: "",wranning: ""},
+				{type: "password",placeholder: "password",val: "",wranning: ""},
+				{type: "text",placeholder: "code",val: "",wranning: "",qcode: "123456"}
+			],
+		
+		},
+		methods:{
+			nameNull: function(){
+				if(this.formData[0].val == ""){
+					this.formData[0].wranning = "wranning";
+				}else{
+					this.formData[0].wranning = "";
+				}
+			},
+			pwdNull: function(){
+				if(this.formData[1].val == ""){
+					this.formData[1].wranning = "wranning";
+				}else{
+					this.formData[1].wranning = "";
+				}
+			},
+			codeNull: function(){
+				if(this.formData[2].val == ""){
+					this.formData[2].wranning = "wranning";
+				}else if(this.formData[2].val != this.formData[2].qcode){
+					this.formData[2].wranning = "wranning";
+				}else{
+					this.formData[2].wranning = "";
+				}
+			}
+		}
 	}); 
+
+
+	var data = { a : 1 };
+
+	// // data内的值无法进行修改
+	// Object.freeze(data);
+
+	var testData = new Vue({
+		el: "#testData",
+		data: data,
+		methods:{
+			add: function(){
+				this.a++;
+			}
+		}
+	});
+
+	// testData.a == data.a; 所以在外部改了其中一个另一个也会跟着改
+	testData.a = 2;
+	data.a = 3;
+	console.log(testData.a);
+
+	console.log(testData.$data === data);  //$data是Vue中的data属性
+	console.log(testData.$el === document.getElementById("testData")); //$el是Vue中的el属性
+	testData.$watch('a',function(newValue,oldValue){
+		console.log(newValue,oldValue);
+	});  //当Vue中的属性值发生改变时触发；
 </script>
 </html>

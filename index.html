@@ -97,6 +97,8 @@
 	</div>
 </body>
 <script>
+
+	// 登录
 	var loginApp = new Vue({
 		el: '#loginApp',
 		data:{
@@ -135,6 +137,8 @@
 	}); 
 
 
+
+// 数据与方法
 	var data = { a : 1 };
 
 	// // data内的值无法进行修改
@@ -160,5 +164,32 @@
 	testData.$watch('a',function(newValue,oldValue){
 		console.log(newValue,oldValue);
 	});  //当Vue中的属性值发生改变时触发；
+
+
+
+	// 生命周期钩子，（函数---***：function(){}）
+	new Vue({
+		data:{
+			a:1
+		}
+		created:function (){
+			// this指向vm实例（this.a是指data中的a）
+			console.log('a is：' + this.a);
+		}
+	});
+
+
+// 不要在选项属性或回调上使用箭头函数，比如 created: () => console.log(this.a) 或 vm.$watch('a', newValue => this.myMethod())。因为箭头函数是和父级上下文绑定在一起的，this 不会是如你所预期的 Vue 实例，经常导致 Uncaught TypeError: Cannot read property of undefined 或 Uncaught TypeError: this.myMethod is not a function 之类的错误。
+
+	// 1、beforeCreate: 在vue实例初始化之后，数据观测（data observer）和 event/watcher事件配置之前被调用
+	// 2.created：在vue实例创建完成后被调用，挂载阶段没开始，$el不可见
+	// 3、beforeMount：挂载之前被调用，render函数首次被调用，在服务器端渲染期间不被调用
+	// 4、mounted：el被新创建的vm.$el替换，并挂载到实例上去之后被调用（待定）
+	// 5、beforeUpdate：数据更新时调用，可以访问现有的Dom，比如手动移除已有的事件监听，在服务器端渲染期间不被调用，只有服务器端初次渲染会进行
+	// 6、updated：被更新后被调用（待定）
+	// 7、activated：keep-alive组件激活时调用,在服务端渲染期间不被调用
+	// 8、deactivated：keep-alive组件停用时被调用,在服务端渲染期间不被调用
+	// 9、beforeDestroy：vue实例销毁之前被调用,在服务端渲染期间不被调用
+	// 10、destroyed：vue实例销毁之后被调用，调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。，,在服务端渲染期间不被调用
 </script>
 </html>
